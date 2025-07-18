@@ -20,43 +20,58 @@
             border-radius: 8px;
             background-color: #fff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
         }
         h1 {
             color: #128C7E;
+            font-size: 24px;
         }
-        input[type="number"] {
+        .phone-input-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        input[type="text"], input[type="number"] {
             padding: 12px 15px;
-            margin-top: 20px;
-            width: 280px;
             border: 1px solid #ddd;
-            border-radius: 8px;
             font-size: 18px;
             box-sizing: border-box;
             transition: border-color 0.3s, box-shadow 0.3s;
-            -moz-appearance: textfield; /* Firefox */
         }
-
-        input[type="number"]::-webkit-outer-spin-button,
-        input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0; /* Safari */
-        }
-
-        input[type="number"]:focus {
+        input:focus {
             outline: none;
             border-color: #25D366;
             box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.2);
+            z-index: 2;
+        }
+        #countryCode {
+            width: 70px;
+            border-radius: 8px 0 0 8px;
+            border-right: none;
+            text-align: center;
+        }
+        #phoneNumber {
+            width: calc(100% - 70px);
+            border-radius: 0 8px 8px 0;
+            -moz-appearance: textfield;
+        }
+        #phoneNumber::-webkit-outer-spin-button,
+        #phoneNumber::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
         button {
-            padding: 10px 20px;
-            margin-top: 20px;
+            padding: 12px 25px;
+            margin-top: 25px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             background-color: #25D366;
             color: white;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
             transition: background-color 0.3s;
+            width: 100%;
         }
         button:hover {
             background-color: #128C7E;
@@ -66,27 +81,30 @@
 <body>
     <div class="container">
         <h1>Otwórz czat WhatsApp</h1>
-        <input type="number" id="phoneNumber" placeholder="Wpisz numer telefonu">
-        <br>
+        <div class="phone-input-container">
+            <input type="text" id="countryCode" value="48" maxlength="4">
+            <input type="number" id="phoneNumber" placeholder="Numer telefonu">
+        </div>
         <button onclick="openWhatsApp()">Otwórz</button>
     </div>
 
     <script>
         function openWhatsApp() {
+            const countryCodeInput = document.getElementById('countryCode');
             const phoneNumberInput = document.getElementById('phoneNumber');
-            let phoneNumber = phoneNumberInput.value;
 
-            // Remove all non-digit characters
-            const sanitizedNumber = phoneNumber.replace(/\D/g, '');
+            const countryCode = countryCodeInput.value.replace(/\D/g, '');
+            const phoneNumber = phoneNumberInput.value.replace(/\D/g, '');
 
-            if (sanitizedNumber) {
-                window.location.href = `https://wa.me/${sanitizedNumber}`;
+            if (countryCode && phoneNumber) {
+                const fullNumber = countryCode + phoneNumber;
+                window.location.href = `https://wa.me/${fullNumber}`;
             } else {
-                alert('Proszę wpisać poprawny numer telefonu.');
+                alert('Proszę wpisać kod kraju i numer telefonu.');
             }
         }
 
-        // Allow pressing Enter to submit
+        // Allow pressing Enter to submit from phone number input
         document.getElementById('phoneNumber').addEventListener('keyup', function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault();
