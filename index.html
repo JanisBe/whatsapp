@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Direct</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #128C7E;
+        }
+        input[type="number"] {
+            padding: 12px 15px;
+            margin-top: 20px;
+            width: 280px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 18px;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            -moz-appearance: textfield; /* Firefox */
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0; /* Safari */
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #25D366;
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.2);
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #25D366;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #128C7E;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Otwórz czat WhatsApp</h1>
+        <input type="number" id="phoneNumber" placeholder="Wpisz numer telefonu">
+        <br>
+        <button onclick="openWhatsApp()">Otwórz</button>
+    </div>
+
+    <script>
+        function openWhatsApp() {
+            const phoneNumberInput = document.getElementById('phoneNumber');
+            let phoneNumber = phoneNumberInput.value;
+
+            // Remove all non-digit characters
+            const sanitizedNumber = phoneNumber.replace(/\D/g, '');
+
+            if (sanitizedNumber) {
+                window.location.href = `https://wa.me/${sanitizedNumber}`;
+            } else {
+                alert('Proszę wpisać poprawny numer telefonu.');
+            }
+        }
+
+        // Allow pressing Enter to submit
+        document.getElementById('phoneNumber').addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                openWhatsApp();
+            }
+        });
+    </script>
+</body>
+</html>
